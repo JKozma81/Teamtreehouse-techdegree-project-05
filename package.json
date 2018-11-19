@@ -1,0 +1,24 @@
+{
+  "name": "teamtreehouse-techdegree-project-05",
+  "version": "1.0.0",
+  "description": "My Teamtreehouse techdegree project 5",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^5.9.0",
+    "eslint-config-google": "^0.11.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JKozma81/Teamtreehouse-techdegree-project-05.git"
+  },
+  "author": "Kozma János",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JKozma81/Teamtreehouse-techdegree-project-05/issues"
+  },
+  "homepage": "https://github.com/JKozma81/Teamtreehouse-techdegree-project-05#readme"
+}
