@@ -1,9 +1,10 @@
+/* eslint-disable no-undef */
 /* eslint-disable arrow-body-style */
 /* eslint arrow-body-style: ["error", "always"] */
 /* eslint-env es6 */
 /* eslint-disable max-len */
 /* eslint-disable require-jsdoc */
-/* eslint linebreak-style: ["error", "windows"]*/
+/* eslint linebreak-style: ["error", "windows"] */
 
 const searchContainer = document.querySelector('.search-container');
 const galleryContainer = document.querySelector('.gallery');
@@ -11,17 +12,10 @@ const body = document.querySelector('body');
 
 const employees = [];
 
-// As DOM Content loaded JavaScript operation allowed
-document.addEventListener('DOMContentLoaded', () => {
-  fetchData();
-  console.log(employees);
-
-});
-
 /**
 * Fetching data from the API with async function
 * More info about async/await: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
-**/
+ **/
 const fetchData = async () => {
   /**
   * Formatted url for the API call
@@ -43,28 +37,9 @@ const fetchData = async () => {
 
     createSearchBox();
     createCards();
-    createModal();
-
-    const cards = document.querySelectorAll('.card');
-
-    // Adding event listener to the cards
-    cards.forEach((card) => {
-      card.addEventListener('click', (event) => {
-        //if (event.target.tagName === 'DIV.CARD') {
-          console.log(event.target);
-        //}
-        //employees[].selected = true;
-
-        showModal();
-      });
-    });
 
     document.querySelector('.search-input').addEventListener('keyup', searching);
-
     document.querySelector('.search-submit').addEventListener('click', searching);
-
-    document.querySelector('.modal-close-btn').addEventListener('click', hideModal);
-
   } catch (err) {
     console.log(err);
   }
@@ -76,8 +51,8 @@ const createSearchBox = () => {
   const searchField = document.createElement('input');
 
   // Search form
-  searchForm.action = '#'
-  searchForm.method = 'get'
+  searchForm.action = '#';
+  searchForm.method = 'get';
 
   // Search field
   searchField.type = 'search';
@@ -87,16 +62,18 @@ const createSearchBox = () => {
 
   // Search button
   const searchButton = '<input type="submit" value="&#x1F50D;" id="serach-submit" class="search-submit">';
-  
+
   searchContainer.appendChild(searchForm);
   searchForm.appendChild(searchField);
   searchForm.innerHTML += searchButton;
-}
+};
 
 // This function creates the modal
 const createModal = () => {
+  const modal = document.createElement('div');
+  modal.className = 'modal-container';
+  body.appendChild(modal);
   const modalMarkup = `
-  <div class="modal-container">
     <div class="modal">
       <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
       <div class="modal-info-container">
@@ -113,19 +90,19 @@ const createModal = () => {
     <div class="modal-btn-container">
       <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
       <button type="button" id="modal-next" class="modal-next btn">Next</button>
-    </div>
-  </div>`;
-  body.innerHTML += modalMarkup;
-}
+    </div>`;
+  modal.innerHTML += modalMarkup;
+  document.querySelector('.modal-close-btn').addEventListener('click', hideModal);
+};
 
 // This function creates the employee cards and appends them to the page
 const createCards = () => {
-    employees.forEach((employee) => {
-    let firstName = employee.name.first;
-    let lastName = employee.name.last;
-    let image = employee.picture.medium;
-    let city = employee.location.city;
-    let state = employee.location.state;
+  employees.forEach((employee) => {
+    const firstName = employee.name.first;
+    const lastName = employee.name.last;
+    const image = employee.picture.medium;
+    const city = employee.location.city;
+    const state = employee.location.state;
     employee.selected = false;
     const card = `
               <div class="card">
@@ -138,36 +115,48 @@ const createCards = () => {
                   <p class="card-text cap">${city}, ${state}</p>
                 </div>
               </div>`;
-      galleryContainer.innerHTML += card;
+    galleryContainer.innerHTML += card;
+    const cards = document.querySelectorAll('.card');
+
+    // Adding event listener to the cards
+    cards.forEach((card) => {
+      card.addEventListener('click', (event) => {
+        createModal();
+        console.log(event.target);
+      });
+    });
   });
-}
+};
 
 // This function is the search event handler
 const searching = () => {
   const searchFor = document.querySelector('.search-input').value;
   const cards = document.querySelectorAll('.card');
-    employees.forEach((employee) => {
-      if (employee.name.first.includes(searchFor)) {
-        cards[employees.indexOf(employee)].style.display = '';
-      } else if (employee.name.last.includes(searchFor)) {
-        cards[employees.indexOf(employee)].style.display = '';
-      } else {
-        cards[employees.indexOf(employee)].style.display = 'none';
-      }
-    });
-}
-
-const showModal = () => {
-
-  document.querySelector('.modal-container').style.display = 'block';
-}
+  employees.forEach((employee) => {
+    if (employee.name.first.includes(searchFor)) {
+      cards[employees.indexOf(employee)].style.display = '';
+    } else if (employee.name.last.includes(searchFor)) {
+      cards[employees.indexOf(employee)].style.display = '';
+    } else {
+      cards[employees.indexOf(employee)].style.display = 'none';
+    }
+  });
+};
 
 const hideModal = () => {
   employees.map((employee) => employee.selected = false);
-  document.querySelector('.modal-container').style.display = '';
-}
+  const modal = document.querySelector('.modal-container');
+  const modalChilds = modal.childNodes;
+  console.log(modalChilds);
+  modalChilds.forEach((child) => child.remove());
+};
 
 const showNextCard = (target) => {
   console.log('next');
-}
+};
 
+// As DOM Content loaded JavaScript operation allowed
+document.addEventListener('DOMContentLoaded', () => {
+  fetchData();
+  console.log(employees);
+});
