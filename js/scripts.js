@@ -1,3 +1,4 @@
+/* eslint-disable valid-jsdoc */
 /* eslint-disable no-undef */
 /* eslint-disable arrow-body-style */
 /* eslint arrow-body-style: ["error", "always"] */
@@ -10,73 +11,52 @@ const searchContainer = document.querySelector('.search-container');
 const galleryContainer = document.querySelector('.gallery');
 const body = document.querySelector('body');
 
-const employees = [];
-let selected = [];
 let counter = 0;
 
-// As DOM Content loaded JavaScript operation allowed
+// As DOM Content loaded, JavaScript operation allowed
 document.addEventListener('DOMContentLoaded', () => {
-  fetchData();
-  console.log(employees);
+  /**
+  * Formatted url for the API call
+  * See documentation for more info: https://randomuser.me/documentation
+  **/
+  const url = 'https://randomuser.me/api/?results=12&nat=AU,GB,IE,NZ,US&inc=name,location,email,dob,picture,phone,nat';
+  const employees = []; // This array is represented as dataStorage in the codes below
+
+  fetchData(url, employees);
 });
 
 /**
 * Fetching data from the API with async function
 * More info about async/await: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
  **/
-const fetchData = async () => {
-  /**
-  * Formatted url for the API call
-  * See documentation for more info: https://randomuser.me/documentation
-  * Required info:
-  * Image, Name, Email, City or location, Cell Number,
-  * Detailed Address, including street name and number, state or country, and post code.
-  * Birthday
-  **/
-  const url = 'https://randomuser.me/api/?results=12&nat=AU,GB,IE,NZ,US&inc=name,location,email,dob,picture,phone,nat';
-
+const fetchData = async (url, dataStorage) => {
   try {
     const rawData = await fetch(url);
     const data = await rawData.json();
 
     await data.results.forEach((element) => {
-      employees.push(element);
+      dataStorage.push(element);
     });
 
     createSearchBox();
-    createCards();
-    createModal();
+    createCards(dataStorage);
+    createModal(dataStorage);
 
     // Adding event listeners for search functionality
-    document.querySelector('.search-input').addEventListener('keyup', searching);
-    document.querySelector('.search-submit').addEventListener('click', searching);
-
-    const cards = document.querySelectorAll('.card');
-    // Adding event listener to the cards
-    cards.forEach((card) => {
-      card.addEventListener('click', (event) => {
-        // Getting the id from the target div and setting the employees arrays
-        // element on the position of the id selected property to true
-        if (event.target.tagName === 'DIV' && event.target.className === 'card') {
-          const index = parseInt(event.target.id);
-          employees[index].selected = true;
-          counter = index;
-        } else if (event.target.tagName === 'DIV' && event.target.className !== 'card') {
-          const index = parseInt(event.target.parentNode.id);
-          employees[index].selected = true;
-          counter = index;
-        } else {
-          const index = parseInt(event.target.parentNode.parentNode.id);
-          employees[index].selected = true;
-          counter = index;
-        }
-        // Getting the selected employee and passing it to the showmodal function
-        selected = employees.filter((employee) => employee.selected === true);
-        showModal(selected[0]);
-      });
+    document.querySelector('.search-input').addEventListener('keyup', () => {
+      const searchFor = document.querySelector('.search-input').value.toLowerCase();
+      if (searchFor === '') {
+        searching(dataStorage);
+      }
     });
+    document.querySelector('form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      searching(dataStorage);
+    });
+
+    addEventListeners(dataStorage);
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 };
 
@@ -104,7 +84,7 @@ const createSearchBox = () => {
 };
 
 // This function creates the modal and atteches event listeners to the buttons
-const createModal = () => {
+const createModal = (dataStorage) => {
   const modalMarkup = `
   <div class="modal-container">
     <div class="modal">
@@ -126,18 +106,39 @@ const createModal = () => {
     </div>
   </div>`;
   body.innerHTML += modalMarkup;
-  document.querySelector('.modal-close-btn').addEventListener('click', hideModal);
-  document.querySelector('#modal-prev').addEventListener('click', (event) => {
-    showNextCard(event.target);
-  });
-  document.querySelector('#modal-next').addEventListener('click', (event) => {
-    showNextCard(event.target);
-  });
+};
+
+// This function is displaying the modal with the appropriate data
+const showModal = (selectedEmployeeData, dataStorage) => {
+  const modal = document.querySelector('.modal-container');
+  const next = document.querySelector('#modal-next');
+  const prev = document.querySelector('#modal-prev');
+  modal.style.display = 'block';
+
+  if (counter === dataStorage.length - 1) {
+    next.style.display = 'none';
+    prev.style.display = '';
+  } else if (counter === 0) {
+    prev.style.display = 'none';
+    next.style.display = '';
+  } else {
+    prev.style.display = '';
+    next.style.display = '';
+  }
+  getSellectedData(selectedEmployeeData);
+};
+
+// This function hides the modal
+const hideModal = (dataStorage) => {
+  dataStorage.forEach((employee) => employee.selected = false);
+  counter = 0;
+  const modal = document.querySelector('.modal-container');
+  modal.style.display = 'none';
 };
 
 // This function creates the employee cards and appends them to the page
-const createCards = () => {
-  employees.forEach((employee, index) => {
+const createCards = (dataStorage) => {
+  dataStorage.forEach((employee, index) => {
     const firstName = employee.name.first;
     const lastName = employee.name.last;
     const image = employee.picture.medium;
@@ -159,36 +160,57 @@ const createCards = () => {
   });
 };
 
+// This function handles the employee carousel on the modal
+const showNextCard = (target, dataStorage) => {
+  if (target.id === 'modal-next') {
+    counter++;
+    if (counter >= dataStorage.length - 1) {
+      target.style.display = 'none';
+    } else {
+      target.previousElementSibling.style.display = '';
+    }
+    getSellectedData(dataStorage[counter]);
+  } else if (target.id === 'modal-prev') {
+    counter--;
+    if (counter <= 0) {
+      target.style.display = 'none';
+    } else {
+      target.nextElementSibling.style.display = '';
+    }
+    getSellectedData(dataStorage[counter]);
+  }
+};
+
 // This function is the search event handler
-const searching = () => {
+const searching = (dataStorage) => {
   const searchFor = document.querySelector('.search-input').value.toLowerCase();
   const cards = document.querySelectorAll('.card');
-  employees.forEach((employee) => {
+  dataStorage.forEach((employee) => {
     if (employee.name.first.includes(searchFor)) {
-      cards[employees.indexOf(employee)].style.display = '';
+      cards[dataStorage.indexOf(employee)].style.display = '';
     } else if (employee.name.last.includes(searchFor)) {
-      cards[employees.indexOf(employee)].style.display = '';
+      cards[dataStorage.indexOf(employee)].style.display = '';
     } else {
-      cards[employees.indexOf(employee)].style.display = 'none';
+      cards[dataStorage.indexOf(employee)].style.display = 'none';
     }
   });
 };
 
 // This function is providing data for the modal and showing it on it
-const getSellectedData = (target) => {
+const getSellectedData = (selectedEmployeeData) => {
   const nodes = document.querySelector('.modal-info-container').children;
 
-  const firstName = target.name.first;
-  const lastName = target.name.last;
-  const image = target.picture.large;
-  const city = target.location.city;
-  const state = target.location.state;
-  const dob = target.dob.date;
-  const email = target.email;
-  const phone = target.phone;
-  const nat = target.nat;
-  const street = target.location.street;
-  const postCode = target.location.postcode;
+  const firstName = selectedEmployeeData.name.first;
+  const lastName = selectedEmployeeData.name.last;
+  const image = selectedEmployeeData.picture.large;
+  const city = selectedEmployeeData.location.city;
+  const state = selectedEmployeeData.location.state;
+  const dob = selectedEmployeeData.dob.date;
+  const email = selectedEmployeeData.email;
+  const phone = selectedEmployeeData.phone;
+  const nat = selectedEmployeeData.nat;
+  const street = selectedEmployeeData.location.street;
+  const postCode = selectedEmployeeData.location.postcode;
 
   nodes[0].src = image;
   nodes[1].textContent = `${firstName} ${lastName}`;
@@ -199,53 +221,43 @@ const getSellectedData = (target) => {
   nodes[7].textContent = new Date(dob).toLocaleString('en-US').split(',')[0];
 };
 
-// This function is displaying the modal and the appropriate data
-const showModal = (target) => {
-  const modal = document.querySelector('.modal-container');
-  const next = document.querySelector('#modal-next');
-  const prev = document.querySelector('#modal-prev');
-  modal.style.display = 'block';
-
-  if (counter === employees.length - 1) {
-    next.style.display = 'none';
-    prev.style.display = '';
-  } else if (counter === 0) {
-    prev.style.display = 'none';
-    next.style.display = '';
-  } else {
-    prev.style.display = '';
-    next.style.display = '';
-  }
-  getSellectedData(target);
+// Setting the provided employee status to selected
+const setSelected = (dataStorage, id) => {
+  dataStorage[id].selected = true;
+  counter = id;
 };
 
-// This function hides the modal
-const hideModal = () => {
-  employees.forEach((employee) => employee.selected = false);
-  counter = 0;
-  const modal = document.querySelector('.modal-container');
-  modal.style.display = 'none';
+const addEventListeners = (dataStorage) => {
+  const cards = document.querySelectorAll('.card');
+  // Adding event listener to the cards
+  cards.forEach((card) => {
+    card.addEventListener('click', (event) => {
+      // Getting the id from the target div and setting the employees arrays
+      // element on the position of the id to selected
+      if (event.target.tagName === 'DIV' && event.target.className === 'card') {
+        const index = parseInt(event.target.id);
+        setSelected(dataStorage, index);
+      } else if (event.target.tagName === 'DIV' && event.target.className !== 'card') {
+        const index = parseInt(event.target.parentNode.id);
+        setSelected(dataStorage, index);
+      } else {
+        const index = parseInt(event.target.parentNode.parentNode.id);
+        setSelected(dataStorage, index);
+      }
+      // Getting the selected employee and passing it to the showmodal function
+      const selected = dataStorage.filter((employee) => employee.selected === true);
+      showModal(selected[0], dataStorage);
+    });
+  });
+
+  document.querySelector('.modal-close-btn').addEventListener('click', () => {
+    hideModal(dataStorage);
+  });
+  document.querySelector('#modal-prev').addEventListener('click', (event) => {
+    showNextCard(event.target, dataStorage);
+  });
+  document.querySelector('#modal-next').addEventListener('click', (event) => {
+    showNextCard(event.target, dataStorage);
+  });
 };
 
-// This function handles the employee carousel on the modal
-const showNextCard = (target) => {
-  if (target.id === 'modal-next') {
-    counter++;
-
-    if (counter >= employees.length - 1) {
-      target.style.display = 'none';
-    } else {
-      target.previousElementSibling.style.display = '';
-    }
-    getSellectedData(employees[counter]);
-  } else if (target.id === 'modal-prev') {
-    counter--;
-
-    if (counter <= 0) {
-      target.style.display = 'none';
-    } else {
-      target.nextElementSibling.style.display = '';
-    }
-    getSellectedData(employees[counter]);
-  }
-};

@@ -2,7 +2,7 @@
    Public API Request
 ======================================== */
 
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Lobster');
 
 * {
 	box-sizing: border-box;
@@ -14,7 +14,7 @@ html, body {
 }
 
 body {
-    font-family: "Nunito", sans-serif;
+    font-family: 'Lobster', cursive;
     text-align: center;
     background: rgba(235, 235, 235, 0.9);
 }
@@ -30,13 +30,13 @@ header {
 
 header h1 {
     font-size: 1.25em;
-    color: rgba(50, 50, 50, 0.9);
+    color: rgba(35, 85, 159, 0.9);
     margin-top: 35px;
 }
 
 .search-input {
     padding: 0.4rem 1rem;
-    border: 1px solid rgba(200, 200, 200, 0.9);
+    border: 1px solid rgba(35, 85, 159, 0.9);
     border-radius: 0.25rem 0 0 0.25rem ;
     max-width: 20rem;
     transition: .4s ease-out;
@@ -44,7 +44,7 @@ header h1 {
 }
 
 .search-input:active, .search-input:hover, .search-input:focus {
-    border: 1px solid rgba(50, 50, 50, 0.9);
+    border: 1px solid rgba(35, 85, 159, 0.9);
 }
 
 .search-submit {
@@ -52,14 +52,14 @@ header h1 {
     height: 33px;
     background: rgba(245, 245, 245, 0.9);
     border-radius: 0 0.25rem 0.25rem 0;
-    border: 1px solid rgba(200, 200, 200, 0.9);
+    border: 1px solid rgba(35, 85, 159, 0.9);
     transition: .4s ease-out;
     outline: none;
 }
 
 .search-submit:active, .search-submit:hover, .search-submit:focus {
     background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(50, 50, 50, 0.9);
+    border: 1px solid rgba(35, 85, 159, 0.9);
 }
 
 
@@ -87,11 +87,15 @@ header h1 {
     max-width: 360px;
     margin: 10px 10px 20px;
     padding: 10px;
-    background: rgba(245, 245, 245, 0.9);
+    background: linear-gradient(rgb(133, 165, 199), rgba(245, 245, 245, 0.9));
     border-radius: 0.25em;
     border: 1px solid rgba(50, 50, 50, 0.3);
     transition: .4s ease-out;
     overflow: hidden;
+}
+
+.card h3 {
+    color: rgba(35, 85, 159, 0.9);
 }
 
 .card-img {
@@ -110,7 +114,7 @@ header h1 {
 
 .card-text {
     font-size: 0.9em;
-    color: rgba(50, 50, 50, 0.7);
+    color: rgba(35, 85, 159, 0.9);
     margin: 7px auto;
     transition: .4s ease-out;
 }
@@ -130,7 +134,7 @@ header h1 {
     right: 0;
     bottom: 0;
     left: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(35, 85, 159, 0.7);
     display: none;
 }
 
@@ -141,10 +145,14 @@ header h1 {
     min-height: 415px;
     margin: 10px auto auto;
     padding-bottom: 15px;
-    background: rgba(255, 255, 255, 1);
+    background: linear-gradient(rgb(133, 165, 199), rgba(245, 245, 245, 0.9));
     border-radius: 0.25em;
     border: 1px solid rgba(100, 100, 100, 0.3);
     transition: .4s ease-out;
+}
+
+.modal-info-container h3 {
+    color: rgba(35, 85, 159, 0.9);
 }
 
 .modal-close-btn {
@@ -153,7 +161,7 @@ header h1 {
     right: 15px;
     cursor: pointer;
     color: rgba(255, 255, 255, 0.9);
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(35, 85, 159, 0.7);
     outline: none;
     border-radius: 0.25em;
     border: 1px solid rgba(50, 50, 50, 0.3);
@@ -170,14 +178,14 @@ header h1 {
 }
 
 .modal-text {
-    color: rgba(50, 50, 50, 0.7);
+    color: rgba(35, 85, 159, 0.7);
     margin: 10px;
 }
 
 .modal hr {
     width: 75%;
     margin: 25px auto 30px;
-    border-color: rgba(200, 200, 200, 0.2);
+    border-color: rgba(35, 85, 159, 0.7);
 }
 
 .modal-btn-container {
@@ -189,7 +197,7 @@ header h1 {
     max-width: 420px;
     padding: 10px 15px 15px;;
     margin: 10px auto auto;
-    background: rgba(255, 255, 255, 1);
+    background: linear-gradient(rgb(133, 165, 199), rgba(245, 245, 245, 0.9));
     border-radius: 0.25em;
     border: 1px solid rgba(100, 100, 100, 0.3);
 }
@@ -202,7 +210,7 @@ header h1 {
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.9);
     padding: 0.75em 1.5em;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(35, 85, 159, 0.7);
     border-radius: 0.35em;
     transition: .4s ease-out;
     outline: none;
@@ -251,14 +259,15 @@ header h1 {
     .card:hover {
         background: rgba(255, 255, 255, 1);
         border: 1px solid rgba(50, 50, 50, 0.9);
+        box-shadow: 12px 12px 2px 1px rgba(35, 85, 159, 0.7);
     }
 
     .card:hover .card-text {
-        color: rgba(25, 25, 25, 1); 
+        color: rgba(35, 85, 159, 0.7); 
     }
 
     .btn:hover {
         background: rgba(255, 255, 255, 1);
-        color: rgba(25, 25, 25, 1); 
+        color: rgba(35, 85, 159, 0.7); 
     }
 }
