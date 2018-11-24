@@ -108,7 +108,7 @@ class UI {
     const nat = selectedEmployeeData.nat;
     const street = selectedEmployeeData.location.street;
     const postCode = selectedEmployeeData.location.postcode;
-  
+
     nodes[0].src = image;
     nodes[1].textContent = `${firstName} ${lastName}`;
     nodes[2].textContent = `${email}`;
