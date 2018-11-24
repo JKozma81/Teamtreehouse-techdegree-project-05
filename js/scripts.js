@@ -63,7 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Modal close button click event listener for hiding the modal
     ui.modalCloseBtn.addEventListener('click', () => {
       data.forEach((empl) => empl.selected = false);
-      console.log(data);
       ui.hideModal();
     });
     // Modal next/prev button click event listeners
