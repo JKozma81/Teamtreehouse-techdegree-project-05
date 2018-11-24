@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Card click event listeners for showing the modal and selecting the employee to display
     ui.cards.forEach((card, index) => {
       card.addEventListener('click', (event) => {
-        if (event.target.tagName === 'DIV' && event.target.className === 'card' || event.target.tagName === 'DIV' && event.target.className !== 'card') {
+        if (event.target.tagName === 'DIV') {
           employeesData.setSelected(data, index);
         } else {
           employeesData.setSelected(data, index);
