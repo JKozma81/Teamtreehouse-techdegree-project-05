@@ -85,14 +85,17 @@ class UI {
     this.prev = document.querySelector('#modal-prev');
   }
 
+  // Method for hiding the modal
   hideModal() {
     this.modal.style.display = 'none';
   }
 
+  // Method for showing the modal
   showModal() {
     this.modal.style.display = 'block';
   }
 
+  // Method for the correct employee to display
   updateModal(selectedEmployeeData, nodes) {
     const firstName = selectedEmployeeData.name.first;
     const lastName = selectedEmployeeData.name.last;
@@ -115,6 +118,7 @@ class UI {
     nodes[7].textContent = new Date(dob).toLocaleString('en-US').split(',')[0];
   }
 
+  // Method for showing the next/prev card
   showNextCard(target, dataStorage, nodes) {
     if (target.id === 'modal-next') {
       counter++;

@@ -48,6 +48,7 @@ class Employees {
     });
   };
 
+  // Setting property to selected for the appropriate employee
   setSelected(dataStorage, id) {
     dataStorage[id].selected = true;
     counter = id;
