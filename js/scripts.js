@@ -46,14 +46,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const selected = data.filter((employee) => employee.selected === true);
         ui.updateModal(...selected, ui.modalNodes);
         if (counter === dataStorage.length - 1) {
-          next.style.display = 'none';
-          prev.style.display = '';
+          ui.next.style.display = 'none';
+          ui.prev.style.display = '';
         } else if (counter === 0) {
-          prev.style.display = 'none';
-          next.style.display = '';
+          ui.prev.style.display = 'none';
+          ui.next.style.display = '';
         } else {
-          prev.style.display = '';
-          next.style.display = '';
+          ui.prev.style.display = '';
+          ui.next.style.display = '';
         }
         ui.showModal();
       });
