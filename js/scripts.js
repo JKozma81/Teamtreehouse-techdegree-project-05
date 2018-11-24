@@ -47,12 +47,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         const selected = data.filter((employee) => employee.selected === true);
         ui.updateModal(...selected, ui.modalNodes);
-        if (counter === data.length - 1) {
+        if (counter === data.length - 1 || counter === 0) {
           ui.next.style.display = 'none';
           ui.prev.style.display = '';
-        } else if (counter === 0) {
-          ui.prev.style.display = 'none';
-          ui.next.style.display = '';
         } else {
           ui.prev.style.display = '';
           ui.next.style.display = '';
