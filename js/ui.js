@@ -92,4 +92,46 @@ class UI {
   showModal() {
     this.modal.style.display = 'block';
   }
+
+  updateModal(selectedEmployeeData, nodes) {
+    const firstName = selectedEmployeeData.name.first;
+    const lastName = selectedEmployeeData.name.last;
+    const image = selectedEmployeeData.picture.large;
+    const city = selectedEmployeeData.location.city;
+    const state = selectedEmployeeData.location.state;
+    const dob = selectedEmployeeData.dob.date;
+    const email = selectedEmployeeData.email;
+    const phone = selectedEmployeeData.phone;
+    const nat = selectedEmployeeData.nat;
+    const street = selectedEmployeeData.location.street;
+    const postCode = selectedEmployeeData.location.postcode;
+  
+    nodes[0].src = image;
+    nodes[1].textContent = `${firstName} ${lastName}`;
+    nodes[2].textContent = `${email}`;
+    nodes[3].textContent = `${city}`;
+    nodes[5].textContent = `${phone}`;
+    nodes[6].textContent = `${street}, ${state}, ${nat}, ${postCode}`;
+    nodes[7].textContent = new Date(dob).toLocaleString('en-US').split(',')[0];
+  }
+
+  showNextCard(target, dataStorage, nodes) {
+    if (target.id === 'modal-next') {
+      counter++;
+      if (counter >= dataStorage.length - 1) {
+        target.style.display = 'none';
+      } else {
+        target.previousElementSibling.style.display = '';
+      }
+      this.updateModal(dataStorage[counter], nodes);
+    } else if (target.id === 'modal-prev') {
+      counter--;
+      if (counter <= 0) {
+        target.style.display = 'none';
+      } else {
+        target.nextElementSibling.style.display = '';
+      }
+      this.updateModal(dataStorage[counter], nodes);
+    }
+  }
 }

@@ -34,4 +34,22 @@ class Employees {
       console.error(err);
     }
   }
+
+  // This methode handles the search
+  searching(searchingFor, searchIn) {
+    searchIn.forEach((employee) => {
+      if (employee.name.first.includes(searchingFor)) {
+        ui.cards[employee.divId].style.display = '';
+      } else if (employee.name.last.includes(searchingFor)) {
+        ui.cards[employee.divId].style.display = '';
+      } else {
+        ui.cards[employee.divId].style.display = 'none';
+      }
+    });
+  };
+
+  setSelected(dataStorage, id) {
+    dataStorage[id].selected = true;
+    counter = id;
+  };
 }
