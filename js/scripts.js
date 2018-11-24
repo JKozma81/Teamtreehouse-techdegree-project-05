@@ -45,12 +45,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         const selected = data.filter((employee) => employee.selected === true);
         ui.updateModal(...selected, ui.modalNodes);
-        if (counter === data.length - 1 || counter === 0) {
-          ui.next.style.display = 'none';
-          ui.prev.style.display = '';
+        if (counter === dataStorage.length - 1) {
+          next.style.display = 'none';
+          prev.style.display = '';
+        } else if (counter === 0) {
+          prev.style.display = 'none';
+          next.style.display = '';
         } else {
-          ui.prev.style.display = '';
-          ui.next.style.display = '';
+          prev.style.display = '';
+          next.style.display = '';
         }
         ui.showModal();
       });
@@ -67,6 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
     ui.prev.addEventListener('click', (event) => {
       ui.showNextCard(event.target, data, ui.modalNodes);
     });
-  });
+  }).catch((err) => console.error(err));
 });
 
