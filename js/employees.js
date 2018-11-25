@@ -12,14 +12,15 @@ class Employees {
   constructor() {
     this.nationalities = 'AU,GB,IE,NZ,US';
     this.fields = 'name,location,email,dob,picture,phone,nat';
+    this.employeesNum = 12;
   }
 
   /**
   * Fetching data from the API with async method
   * More info about async/await: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
   **/
-  async getEmployees(numberOfEmpl) {
-    const url = `https://randomuser.me/api/?results=${numberOfEmpl}&nat=${this.nationalities}&inc=${this.fields}`;
+  async getEmployees() {
+    const url = `https://randomuser.me/api/?results=${this.employeesNum}&nat=${this.nationalities}&inc=${this.fields}`;
     this.employees = [];
     try {
       const data = await fetch(url);

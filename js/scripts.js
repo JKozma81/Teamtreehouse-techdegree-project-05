@@ -10,11 +10,11 @@ const ui = new UI;
 const employeesData = new Employees;
 const data = [];
 let counter = 0;
-const employeesNum = 12;
+
 
 // As DOM Content loaded, JavaScript operation allowed
 document.addEventListener('DOMContentLoaded', () => {
-  const employees = employeesData.getEmployees(employeesNum);
+  const employees = employeesData.getEmployees();
 
   employees.then((result) => {
     // Creating page structure
@@ -37,23 +37,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     // Card click event listeners for showing the modal and selecting the employee to display
     ui.cards.forEach((card, index) => {
-      card.addEventListener('click', (event) => {
-        if (event.target.tagName === 'DIV') {
-          employeesData.setSelected(data, index);
-        } else {
-          employeesData.setSelected(data, index);
-        }
+      card.addEventListener('click', () => {
+        employeesData.setSelected(data, index);
         const selected = data.filter((employee) => employee.selected === true);
         ui.updateModal(...selected, ui.modalNodes);
         if (counter === data.length - 1) {
           ui.next.style.display = 'none';
           ui.prev.style.display = '';
         } else if (counter === 0) {
+          ui.next.style.display = '';
           ui.prev.style.display = 'none';
-          ui.next.style.display = '';
         } else {
-          ui.prev.style.display = '';
           ui.next.style.display = '';
+          ui.prev.style.display = '';
         }
         ui.showModal();
       });
