@@ -12,4 +12,4 @@ Note: I have been altered the CSS styling a little bit:
   - Added new background effect
   - Added a little bit of box shadow
 
-At first as i finished this project and gone trough the code, i realized that i can do it in a better way, so i refactored it with object oriented javascript. That was my final version, what i have been submitted for review. You can find the old version of my code in the _script.js file.
+At first as i finished this project and gone trough the code, i realized that i can do it in a better way, so i refactored it with object oriented javascript. That was my final version, what i have been submitted for review. You can find the old version of my code in the _scripts.js file.
