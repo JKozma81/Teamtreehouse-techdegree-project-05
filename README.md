@@ -2,7 +2,7 @@
 
 This is my 5th project in the Team Treehouse Full Stack JavaScript techdegree.
 
-In this project we have to make an API request to the randomuser.me API, fetch 12 random employee from it and display them on the page with a search option. Then we have to make a modal window that appears as the user clicks on one of the employees card. The modal window must show first the detailed information of the employee who has been choosen and there is an optionto to switch back and forth between employees when the detail modal window is open.
+In this project we have to make an API request to the randomuser.me API, fetch 12 random employee from it and display them on the page with a search option. Then we have to make a modal window that appears as the user clicks on one of the employees card. The modal window must show first the detailed information of the employee who has been choosen and there is an option to switch back and forth between employees when the detail modal window is open.
 
 The HTML and CSS files are provided by Treehouse, but the JS files are self writen.
 
